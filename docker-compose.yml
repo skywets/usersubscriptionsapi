@@ -1,0 +1,35 @@
+version: '3'
+services:
+  usersubscriptionsapiApp:
+    image: usersubscriptionsapi
+    build: .
+    ports:
+      - "7771:7770"
+    restart: always
+    depends_on:
+      - usersubscriptionsapiDb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://usersubscriptionsapiDb/usersubscriptionsapi
+      - SPRING_DATASOURCE_USERNAME=newuser
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  usersubscriptionsapiDb:
+    image: postgres:14.7
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=newuser
+      - POSTGRES_DB=usersubscriptionsapi
+
+  walletDb:
+    image: postgres:14.7
+    restart: always
+    ports:
+      - "9999:5432"
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=newuser
+      - POSTGRES_DB=usersubscriptionsapi
